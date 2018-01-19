@@ -14,7 +14,6 @@ import (
 	"github.com/coreos/dex/storage/etcd"
 	"github.com/coreos/dex/storage/kubernetes"
 	"github.com/coreos/dex/storage/memory"
-	"github.com/coreos/dex/storage/sql"
 )
 
 // Config is the config format for the main application.
@@ -134,8 +133,8 @@ var storages = map[string]func() StorageConfig{
 	"etcd":       func() StorageConfig { return new(etcd.Etcd) },
 	"kubernetes": func() StorageConfig { return new(kubernetes.Config) },
 	"memory":     func() StorageConfig { return new(memory.Config) },
-	"sqlite3":    func() StorageConfig { return new(sql.SQLite3) },
-	"postgres":   func() StorageConfig { return new(sql.Postgres) },
+	// "sqlite3":    func() StorageConfig { return new(sql.SQLite3) },
+	// "postgres": func() StorageConfig { return new(sql.Postgres) },
 }
 
 // UnmarshalJSON allows Storage to implement the unmarshaler interface to
