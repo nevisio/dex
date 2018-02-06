@@ -75,12 +75,20 @@ func (c *conn) GarbageCollect(now time.Time) (result storage.GCResult, err error
 }
 
 func (c *conn) CreateAuthRequest(a storage.AuthRequest) error {
+	c.logger.Infof("create auth request, %+v", a)
 	ctx, cancel := context.WithTimeout(context.Background(), defaultStorageTimeout)
 	defer cancel()
-	return c.txnCreate(ctx, keyID(authRequestPrefix, a.ID), fromStorageAuthRequest(a))
+	err := c.txnCreate(ctx, keyID(authRequestPrefix, a.ID), fromStorageAuthRequest(a))
+	if err != nil {
+		c.logger.Errorf("create auth request failed, %s", err)
+		return err
+	}
+	c.logger.Errorf("create auth request successful")
+	return nil
 }
 
 func (c *conn) GetAuthRequest(id string) (a storage.AuthRequest, err error) {
+	c.logger.Infof("get auth request, %s", id)
 	ctx, cancel := context.WithTimeout(context.Background(), defaultStorageTimeout)
 	defer cancel()
 	var req AuthRequest
@@ -488,6 +496,8 @@ func (c *conn) txnCreate(ctx context.Context, key string, value interface{}) err
 	if err != nil {
 		return err
 	}
+	c.logger.WithField("res", res).Infof("create key ")
+
 	if !res.Succeeded {
 		return storage.ErrAlreadyExists
 	}

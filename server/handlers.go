@@ -541,7 +541,7 @@ func (s *Server) sendCodeResponse(w http.ResponseWriter, r *http.Request, authRe
 			var err error
 			idToken, idTokenExpiry, err = s.newIDToken(authReq.ClientID, authReq.Claims, authReq.Scopes, authReq.Nonce, accessToken, authReq.ConnectorID)
 			if err != nil {
-				s.logger.Errorf("failed to create ID token: %v", err)
+				s.logger.Errorf("failed to create ID token:33 %v", err)
 				s.tokenErrHelper(w, errServerError, "", http.StatusInternalServerError)
 				return
 			}
@@ -663,7 +663,7 @@ func (s *Server) handleAuthCode(w http.ResponseWriter, r *http.Request, client s
 	accessToken := storage.NewID()
 	idToken, expiry, err := s.newIDToken(client.ID, authCode.Claims, authCode.Scopes, authCode.Nonce, accessToken, authCode.ConnectorID)
 	if err != nil {
-		s.logger.Errorf("failed to create ID token: %v", err)
+		s.logger.Errorf("failed to create ID token:11 %v", err)
 		s.tokenErrHelper(w, errServerError, "", http.StatusInternalServerError)
 		return
 	}
@@ -912,7 +912,7 @@ func (s *Server) handleRefreshToken(w http.ResponseWriter, r *http.Request, clie
 	accessToken := storage.NewID()
 	idToken, expiry, err := s.newIDToken(client.ID, claims, scopes, refresh.Nonce, accessToken, refresh.ConnectorID)
 	if err != nil {
-		s.logger.Errorf("failed to create ID token: %v", err)
+		s.logger.Errorf("failed to create ID token:22 %v", err)
 		s.tokenErrHelper(w, errServerError, "", http.StatusInternalServerError)
 		return
 	}
